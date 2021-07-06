@@ -1,0 +1,76 @@
+baseURL = "https://shwchurch3.github.io/"
+languageCode = "zh-cn"
+title = "北京守望教会"
+theme = "hugo-theme-shwchurch"
+
+
+# Copyright notice. This will display on the footer.
+copyright = ""
+paginate = 10
+
+disablePathToLower = true
+hasCJKLanguage = true
+preserveTaxonomyNames = true
+timeout = 20000
+pluralizeListTitles = false
+minify = true
+
+# Theme config
+[params]
+
+  # The content you want to be listed on list pages.
+  mainSections = ["post"]
+
+  # The information will display on the post pages.
+  author = "守望"
+  description = "守望官网"
+  authorwebsite = "https://t5.shwchurch.org/"
+
+  # The path to your images
+  favicon = "images/logo.png"
+  logo = "images/logo.png"
+  avatar = ""
+  displayImg = "images/header_banner.jpg"
+
+
+# Navbar config
+[[menu.nav]]
+    name = "首页"
+    url = "/"
+    weight = 1
+
+[[menu.nav]]
+    name = "关于守望"
+    url = "/2012/08/03/关于我们/"
+    weight = 3
+
+[[menu.nav]]
+    name = "联系我们"
+    url = "/2012/08/03/守望教会-联系我们/"
+    weight = 3
+
+
+[[menu.nav]]
+    name = "所有分类"
+    url = "/categories/"
+    weight = 4
+
+# Social accounts config (This will display on the index page)
+[[menu.social]]
+    name = "主日敬拜程序"
+    url = "/categories/主日敬拜程序/"
+    weight = 1
+
+[[menu.social]]
+    name = "讲道"
+    url = "/categories/讲道/"
+    weight = 2
+
+[[menu.social]]
+    name = "户外敬拜"
+    url = "/tags/户外推荐资料/"
+    weight = 3
+
+[Taxonomies]
+  category = "categories"
+  tag = "tags"
