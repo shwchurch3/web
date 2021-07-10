@@ -7,6 +7,13 @@ cd "$(dirname "$0")"
 
 cd ..
 
+gitBaseOnFirstCommit(){
+	cd public
+        git checkout `git rev-list --max-parents=0 HEAD | tail -n 1`
+	cd ..
+}
+gitBaseOnFirstCommit
+
 # Build the project.
 /usr/local/bin/hugo --minify # if using a theme, replace with `hugo -t <YOURTHEME>`
 
@@ -20,6 +27,17 @@ find . -type f -name "*.html" -exec sed -i  "s#title=[a-z0-9-]{1,}#title=replace
 find . -type f -name "*.html" -exec sed -i  "s#alt=[a-z0-9-]{1,}#alt=replaced#g" {} \;
 
 git config --global core.quotePath false
+
+gitReinit(){
+	fetchUrlFile="./git-remote-url"
+	if [[ ! -f "$fetchUrlFile" ]];then
+        	echo "$(git remote show origin | grep "Fetch" | awk '{ print $3 }')" > $fetchUrlFile
+	fi
+	fetchUrl=$(cat ./git-remote-url)
+	rm -rf .git
+	git init
+	git remote add origin  ${fetchUrl}
+}
 
 gitCommitByBulk(){
         path=$1
