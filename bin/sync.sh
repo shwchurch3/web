@@ -71,35 +71,35 @@ fileSizeOfFilesToRemove=+1M
 
 cd ${uploadsDir}
 
-find . -type f -size ${fileSizeOfFilesToRemove} -printf '%s %p\n' | sort -nr | awk '{print $2}'  > ${allMp3Descriptor}
+###find . -type f -size ${fileSizeOfFilesToRemove} -printf '%s %p\n' | sort -nr | awk '{print $2}'  > ${allMp3Descriptor}
 
-echo "[INFO] Generating all files to delete"
-while IFS='' read -r line || [[ -n "$line" ]]; do
-
-	isMp3Required=$(cat ${postDir}/${allMp3RequiredDescriptor} | xargs -I {}  bash -c "[[ \"${line}\" =~ \"{}\" ]] && echo {}" )
-
-	if [[ -z "$isMp3Required" ]];then
-		echo $line >> ${uploadsDir}/${allMp3ToDeleteDescriptor} 
-	else
-		echo "[INFO] Skip marking deletion: '$line' as it is required"
-	fi
-
-	  
-done < "${uploadsDir}/${allMp3Descriptor}"
-
-echo "[INFO] Delete files in ${uploadsDir}/${allMp3ToDeleteDescriptor}"
-
-cd ${uploadsDir}
-
-while IFS='' read -r line || [[ -n "$line" ]]; do
-
-	if [[ ! -z "$line" ]];then
-		rm $line
-	fi
-
-	  
-done < "${uploadsDir}/${allMp3ToDeleteDescriptor}"
-
+###echo "[INFO] Generating all files to delete"
+###while IFS='' read -r line || [[ -n "$line" ]]; do
+###
+###	isMp3Required=$(cat ${postDir}/${allMp3RequiredDescriptor} | xargs -I {}  bash -c "[[ \"${line}\" =~ \"{}\" ]] && echo {}" )
+###
+###	if [[ -z "$isMp3Required" ]];then
+###		echo $line >> ${uploadsDir}/${allMp3ToDeleteDescriptor} 
+###	else
+###		echo "[INFO] Skip marking deletion: '$line' as it is required"
+###	fi
+###
+###	  
+###done < "${uploadsDir}/${allMp3Descriptor}"
+###
+###echo "[INFO] Delete files in ${uploadsDir}/${allMp3ToDeleteDescriptor}"
+###
+###cd ${uploadsDir}
+###
+###while IFS='' read -r line || [[ -n "$line" ]]; do
+###
+###	if [[ ! -z "$line" ]];then
+###		rm $line
+###	fi
+###
+###	  
+###done < "${uploadsDir}/${allMp3ToDeleteDescriptor}"
+###
 
 echo "[INFO] Delete other unnecessary files"
 
