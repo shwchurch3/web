@@ -15,7 +15,9 @@ gitBaseOnFirstCommit(){
 		echo "You could use ./bin/deploy-init.sh to create the first INIT"
 		exit 1
 	fi
+	git clean -fd
 	git reset --hard $rev
+	git gc
 	git push --set-upstream origin master --force
 	cd ..
 }
@@ -129,10 +131,10 @@ git commit -m "Commit all the rest"
 git push --set-upstream origin master  --force
 
 # Remove last commit
-git reset --hard HEAD~1
 git clean -fd
 git gc
 
 
 # Come Back up to the Project Root
 cd ..
+gitBaseOnFirstCommit
