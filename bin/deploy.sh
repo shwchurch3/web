@@ -9,7 +9,14 @@ cd ..
 
 gitBaseOnFirstCommit(){
 	cd public
-        git checkout `git rev-list --max-parents=0 HEAD | tail -n 1`
+	rev=$(git log --all --grep='[INIT]' | grep commit | awk '{print $2}')
+	if [[ -z "$rev" ]];then
+		echo "You need to have a commit with comment '[INIT]' first"
+		echo "You could use ./bin/deploy-init.sh to create the first INIT"
+		exit 1
+	fi
+	git reset --hard $rev
+	git push --set-upstream origin master --force
 	cd ..
 }
 gitBaseOnFirstCommit
@@ -57,7 +64,7 @@ gitCommitByBulk(){
 		finaMsg="[Bulk] ${msg} - Added ${path}@${countLines} files"
 		echo "$finaMsg"
 		git commit -m "$finaMsg"
-		git push origin master
+		git push --set-upstream origin master  --force
 		countLines=$(git ls-files -dmo ${path} | head -n ${bulkSize} | wc -l)
 	done
 }
@@ -77,7 +84,7 @@ gitAddCommitPush(){
 	git commit -m "$msg"
 	
 	# Push source and build repos.
-	git push origin master
+	git push --set-upstream origin master  --force
 
 	
 }
@@ -119,9 +126,10 @@ do
 done
 #gitAddCommitPush "." "Commit all the rest"
 git commit -m "Commit all the rest"
-git push origin master
+git push --set-upstream origin master  --force
 
-git reset --hard
+# Remove last commit
+git reset --hard HEAD~1
 git clean -fd
 git gc
 

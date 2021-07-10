@@ -53,7 +53,7 @@ gitCommitByBulk(){
 		finaMsg="[Bulk] ${msg} - Added ${path}@${countLines} files"
 		echo "$finaMsg"
 		git commit -m "$finaMsg"
-		git push --set-upstream origin master
+		git push --set-upstream origin master --force
 		countLines=$(git ls-files -dmo ${path} | head -n ${bulkSize} | wc -l)
 	done
 }
@@ -73,7 +73,7 @@ gitAddCommitPush(){
 	git commit -m "$msg"
 	
 	# Push source and build repos.
-	git push --set-upstream origin master
+	git push --set-upstream origin master --force
 
 	
 }
@@ -100,22 +100,12 @@ gitCommitByBulk "wp-content"
 rangeGitAddPush page 1 10
 rangeGitAddPush "posts/page" 1 10
 
-# Commit changes.
-# Add changes to git.
-START=2005
-END=$(date +'%Y')
-MONTH=$(date +"%m")
-gitCommitByBulk "${END}/${MONTH}"
-#gitAddCommitPush "${END}/${MONTH}"
+gitCommitByBulk "."
 
+echo "Init" > "init-$(date)"
 git add .
-for i in $(seq $START $END)
-do
-   git reset "$i/"
-done
-#gitAddCommitPush "." "Commit all the rest"
-git commit -m "Commit all the rest"
-git push --set-upstream origin master
+git commit -m "[INIT]"
+git push
 
 git reset --hard
 git clean -fd
