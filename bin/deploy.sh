@@ -21,7 +21,7 @@ gitBaseOnFirstCommit(){
 	git push --set-upstream origin master --force
 	cd ..
 }
-gitBaseOnFirstCommit
+#gitBaseOnFirstCommit
 
 # Build the project.
 /usr/local/bin/hugo --minify # if using a theme, replace with `hugo -t <YOURTHEME>`
@@ -33,22 +33,11 @@ find . -type f -name "*.html" -exec sed -i  "s/id=gallery-[[:digit:]]\+/id=galle
 find . -type f -name "*.html" -exec sed -i  "s/galleryid-[[:digit:]]\+/galleryid-replaced/g" {} \;
 find . -type f -name "*.html" -exec sed -i  "s#https\?:/wp-content#/wp-content#g" {} \;
 find . -type f -name "*.html" -exec sed -i  "s#title=[a-z0-9-]{1,}#title=____#g" {} \;
-find . -type f -name "*.html" -exec sed -i  "s#alt=[a-z0-9-]{1,}#alt=____#g" {} 
+find . -type f -name "*.html" -exec sed -i  "s#alt=[a-z0-9-]{1,}#alt=____#g" {} \;
 
 
 
 git config --global core.quotePath false
-
-gitReinit(){
-	fetchUrlFile="./git-remote-url"
-	if [[ ! -f "$fetchUrlFile" ]];then
-        	echo "$(git remote show origin | grep "Fetch" | awk '{ print $3 }')" > $fetchUrlFile
-	fi
-	fetchUrl=$(cat ./git-remote-url)
-	rm -rf .git
-	git init
-	git remote add origin  ${fetchUrl}
-}
 
 gitCommitByBulk(){
         path=$1
@@ -131,10 +120,11 @@ git commit -m "Commit all the rest"
 git push --set-upstream origin master  --force
 
 # Remove last commit
+git reset --hard
 git clean -fd
 git gc
 
 
 # Come Back up to the Project Root
 cd ..
-gitBaseOnFirstCommit
+#gitBaseOnFirstCommit

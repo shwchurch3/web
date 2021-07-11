@@ -18,7 +18,6 @@ find . -type f -name "*.html" -exec sed -i  "s#title=[a-z0-9-]{1,}#title=____#g"
 find . -type f -name "*.html" -exec sed -i  "s#alt=[a-z0-9-]{1,}#alt=____#g" {} \;
 
 
-
 originURL="$(cat $fetchUrlFile)"
 if [[ -z "$originURL" ]]; then
 	echo "Couldn't find origin URL in file $fetchUrlFile. It should be something like https://shwchurch3@github.com/shwchurch3/shwchurch3.github.io.git"
@@ -26,6 +25,8 @@ if [[ -z "$originURL" ]]; then
 fi
 
 rm -rf .git
+rm -rf .
+echo $originURL > $fetchUrlFile
 git init
 git config --global core.quotePath false
 git config credential.helper 'store'
